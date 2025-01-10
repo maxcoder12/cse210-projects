@@ -1,0 +1,10 @@
+A version control tracks and manages files and the changes in them along the time, helping people to collaborate and work efficiently. It shows and explain every modification to a project, enabling developers to review, restore, or compare first and last versions of files. One of its fundamental benefits is allowing team collaboration without rewriting others’ work, which is important in software development.
+
+For example, in a team, version control is used to manage code changes from multiple contributors. Developers can work on different features or bug fixes together without modifying their fellow's code. Once their work is complete, they can merge it back into the main project without stopping the progress. This permit a systematic development and easy debugging by isolated changes.
+
+A common Git command used in version control is:
+git commit -m "Describe the changes made"
+
+This command saves changes to the repository with a message describing what was done. In some cases, a developer might use this to document implementing a new login feature.
+
+Then, version control ensures better organization, accountability, and efficiency in team and individual projects.
