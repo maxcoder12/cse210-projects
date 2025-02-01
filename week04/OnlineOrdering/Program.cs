@@ -17,7 +17,7 @@ class Program
         Console.WriteLine("Country:");
         string country = Console.ReadLine();
 
-        Address address = new Adresss(street, city, state, country);
+        Address address = new Address(street, city, state, country);
 
         Customer customer = new Customer(username, address);
 
@@ -46,7 +46,7 @@ class Program
             Console.Clear();
             int i = 0;
 
-            Console.WriteLine("Shopping Cart.")
+            Console.WriteLine("Shopping Cart.");
             foreach (Product product in productsCart){
                 i++;
                 string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
@@ -57,7 +57,7 @@ class Program
             Console.WriteLine("\nSelect one of the following options:");
             Console.WriteLine("1. Add Item.");
             Console.WriteLine("2. Remove Item.");
-            Console.WriteLine("3. See current order.")
+            Console.WriteLine("3. See current order.");
             Console.WriteLine("4. Finish order.");
             Console.WriteLine("5. Quit.");
 
@@ -92,9 +92,9 @@ class Program
             else if (userOption == 2)
             {
                 i = 0;
+                Console.WriteLine("Your Order:");
                 foreach (Product product in userOrder){
                     i++;
-                    Console.WriteLine("Your Order:");
                     string productInfo = $"{product.GetProductID()} - {product.GetName()} | 1un = ${product.GetPrice()} x {product.GetQuantity()} = ${product.CalculateTotalPrice()}";
 
                     Console.WriteLine(productInfo);

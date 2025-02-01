@@ -1,9 +1,9 @@
 using System;
-using system.Collections.Generic;
+using System.Collections.Generic;
 
 public class Order{
     private List<Product> _products = new List<Product>();
-    private Customer _customer = new Customer("", Address address);
+    private Customer _customer;
 
     public Order(List<Product> products, Customer customer){
         _products = products;
@@ -24,7 +24,7 @@ public class Order{
             shippingCost = 35;
         }
 
-        return $"Total Cost = ${totalCost + shippingCost}";
+        return totalCost + shippingCost;
     }
 
     public string DisplayPackingLabel(){
