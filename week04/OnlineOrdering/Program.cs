@@ -21,7 +21,6 @@ class Program
 
         Customer customer = new Customer(username, address);
 
-        Order order = new Order(userOrder, customer);
 
         List<Product> productsCart = new List<Product>
         {
@@ -39,29 +38,109 @@ class Program
 
         List<Product> userOrder = new List<Product>();
 
+        Order order = new Order(userOrder, customer);
+
         int userOption = 0;
         while (userOption != 4){
             Console.Clear();
+            int i = 0;
 
             Console.WriteLine("Shopping Cart.")
             foreach (Product product in productsCart){
-                int i = 1;
-                string productsInfo = $"Product: {product.GetName()} - Price: {product.GetPrice()}";
+                i++;
+                string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
 
                 Console.WriteLine(productInfo);
-                i++;
             }
 
-            Console.WriteLine("Select one of the following options:");
-            Console.WriteLine("1. Add Item");
+            Console.WriteLine("\nSelect one of the following options:");
+            Console.WriteLine("1. Add Item.");
             Console.WriteLine("2. Remove Item.");
             Console.WriteLine("3. See current order.")
-            Console.WriteLine("4. Finish order");
+            Console.WriteLine("4. Finish order.");
+            Console.WriteLine("5. Quit.");
 
             userOption =  int.Parse(Console.ReadLine());
 
-            if(userOption == 1){
+            if(userOption == 1)
+            {
+                Console.WriteLine("Select one of the products by their indexes. (E.g : 1)");
+                int itemIndex = int.Parse(Console.ReadLine());
+                itemIndex -= 1;
 
+                string itemName = productsCart[itemIndex].GetName();
+                int itemID = productsCart[itemIndex].GetProductID();
+                double itemPrice = productsCart[itemIndex].GetPrice();
+                int itemQuantity = 0;
+
+                Console.WriteLine("How many do you want?");
+                itemQuantity = int.Parse(Console.ReadLine());
+
+                Product item = new Product(itemName, itemID, itemPrice, itemQuantity);
+
+                Console.WriteLine($"You ordered: {itemQuantity} - {itemName} | 1un = {itemPrice} x {itemQuantity} = {item.CalculateTotalPrice()}");
+                Console.WriteLine($"Do you want to confirm? Y / N");
+                string userConfirm = Console.ReadLine();
+
+                if (userConfirm.ToLower() == "y"){
+                    userOrder.Add(item);
+                } else {
+                    continue;
+                }
+            } 
+            else if (userOption == 2)
+            {
+                i = 0;
+                foreach (Product product in userOrder){
+                    i++;
+                    string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
+
+                    Console.WriteLine(productInfo);
+                }
+
+                Console.WriteLine("Select one of the products by their indexes. (E.g : 1)");
+                int itemIndex = int.Parse(Console.ReadLine());
+                itemIndex -= 1;
+
+                string itemName = userOrder[itemIndex].GetName();
+                int itemID = userOrder[itemIndex].GetProductID();
+                double itemPrice = userOrder[itemIndex].GetPrice();
+                int itemQuantity = userOrder[itemIndex].GetQuantity();
+
+                Console.WriteLine("How many do you want to remove?");
+                int itemQuantityRemove = int.Parse(Console.ReadLine());
+
+                if (itemQuantityRemove == itemQuantity){
+                    Console.WriteLine($"You want to remove: {itemQuantity} - {itemName} | 1un = {itemPrice} x {itemQuantity} = {item.CalculateTotalPrice()}");
+                } else if (itemQuantityRemove < itemQuantity){
+                    Console.WriteLine($"You want to remove: {itemQuantityRemove} - {itemName} | 1un = {itemPrice} x {itemQuantity} = {item.CalculateTotalPrice()}");
+                } else{
+                    Console.WriteLine("Invalid number");
+                    continue;
+                }
+                Console.WriteLine($"Do you want to confirm? Y / N");
+                string userConfirm = Console.ReadLine();
+
+                if (userConfirm.ToLower() == "y" && itemQuantity == itemQuantityRemove){
+                    userOrder.RemoveAt(itemIndex);
+                } else if (userConfirm.ToLower() == "y" && itemQuantityRemove < itemQuantity){
+                    userOrder[itemIndex].SetQuantity(itemQuantity - itemQuantityRemove);
+                } else{
+                    Console.WriteLine("Invalid option.");
+                    continue;
+                }
+            }
+            else if (userOption == 3){
+                i = 0;
+                foreach (Product product in userOrder){
+                    i++;
+                    string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
+
+                    Console.WriteLine(productInfo);
+                }
+            }
+            else if (userOption == 4){
+                
             }
 
         }        
