@@ -13,6 +13,10 @@ public class Product{
         _quantity = quantity;
     }
 
+    public void SetQuantity(int quantity){
+        _quantity = quantity;
+    }
+
     public double GetPrice(){
         return _price;
     }
@@ -25,15 +29,13 @@ public class Product{
         return _productID;
     }
 
-    public int GetQuantity(){
-        return _quantity;
-    }
-
-    public void SetQuantity(int quantity){
-        _quantity = quantity;
-    }
-
     public double CalculateTotalPrice(){
         return _price * _quantity;
     }
+
+    public int GetQuantity(){
+        return _quantity;
+    }        
+
+    
 }

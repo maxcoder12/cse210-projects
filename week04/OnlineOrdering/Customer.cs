@@ -14,11 +14,7 @@ public class Customer{
     }
 
     public bool LivesInUsa(){
-        if (_address.LivesInUsa()){
-            return true;
-        } else{
-            return false;
-        }
+        returns _address.LivesInUsa();
     }
 
     public string DisplayAddress(){
