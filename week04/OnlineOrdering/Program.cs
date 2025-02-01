@@ -41,7 +41,8 @@ class Program
         Order order = new Order(userOrder, customer);
 
         int userOption = 0;
-        while (userOption != 4){
+        while (userOption != 5)
+        {
             Console.Clear();
             int i = 0;
 
@@ -93,7 +94,8 @@ class Program
                 i = 0;
                 foreach (Product product in userOrder){
                     i++;
-                    string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
+                    Console.WriteLine("Your Order:");
+                    string productInfo = $"{product.GetProductID()} - {product.GetName()} | 1un = ${product.GetPrice()} x {product.GetQuantity()} = ${product.CalculateTotalPrice()}";
 
                     Console.WriteLine(productInfo);
                 }
@@ -111,9 +113,9 @@ class Program
                 int itemQuantityRemove = int.Parse(Console.ReadLine());
 
                 if (itemQuantityRemove == itemQuantity){
-                    Console.WriteLine($"You want to remove: {itemQuantity} - {itemName} | 1un = {itemPrice} x {itemQuantity} = {item.CalculateTotalPrice()}");
+                    Console.WriteLine($"You want to remove: {itemQuantity} - {itemName} | 1un = ${itemPrice} x {itemQuantity} = ${item.CalculateTotalPrice()}");
                 } else if (itemQuantityRemove < itemQuantity){
-                    Console.WriteLine($"You want to remove: {itemQuantityRemove} - {itemName} | 1un = {itemPrice} x {itemQuantity} = {item.CalculateTotalPrice()}");
+                    Console.WriteLine($"You want to remove: {itemQuantityRemove} - {itemName} | 1un = ${itemPrice} x {itemQuantity} = ${item.CalculateTotalPrice()}");
                 } else{
                     Console.WriteLine("Invalid number");
                     continue;
@@ -130,17 +132,47 @@ class Program
                     continue;
                 }
             }
-            else if (userOption == 3){
+            else if (userOption == 3)
+            {
                 i = 0;
+                Console.WriteLine("Your order:");
                 foreach (Product product in userOrder){
                     i++;
-                    string productInfo = $"{i}. Product: {product.GetName()} - Price: {product.GetPrice()}";
+                    string productInfo = $"{product.GetProductID()} - {product.GetName()} | 1un = ${product.GetPrice()} x {product.GetQuantity()} = ${product.CalculateTotalPrice()}";
 
                     Console.WriteLine(productInfo);
                 }
             }
-            else if (userOption == 4){
-                
+            else if (userOption == 4)
+            {
+                Console.WriteLine(order.DisplayShippingLabel());
+                Console.WriteLine("Your order:");
+                Console.WriteLine(order.DisplayPackingLabel());
+                Console.WriteLine("There is a $35 shipping tax for whom doesn't live in USA, whom does a $5 shipping  tax will be applied.");
+                Console.WriteLine("Total Cost:");
+                Console.WriteLine(order.GetTotalCost());
+
+                Console.WriteLine("Do you want to finished? Y / N");
+                string userFinish = Console.ReadLine();
+
+                if (userFinish.ToLower() == "y"){
+                    Console.WriteLine("Transaction Succesfully finished!");
+                    Console.WriteLine("Goodbye!");
+                    break;
+                } else if (userFinish.ToLower() == "n"){
+                    continue;
+                } else{
+                    Console.WriteLine("Invalid Option...");
+                    continue;
+                }
+            } else if (userOption == 5)
+            {
+                Console.WriteLine("Goodbye!!");
+                break;
+            } else
+            {
+                Console.WriteLine("Invalid Option...");
+                continue;
             }
 
         }        

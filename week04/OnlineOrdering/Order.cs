@@ -31,7 +31,7 @@ public class Order{
         string packingLabel = "";
 
         foreach (Product product in _products){
-            packingLabel += $"Product: {product.GetName()} - ID: {product.GetProductID()}\n";
+            packingLabel += $"{product.GetProductID()} - {product.GetName()} | 1un = ${product.GetPrice()} x {product.GetQuantity()} = ${product.CalculateTotalPrice()}\n";
         }
 
         return packingLabel;
@@ -39,6 +39,8 @@ public class Order{
 
     public string DisplayShippingLabel(){
         string shippingLabel = $"Name: {_customer.GetName()} - Address: {_customer.DisplayAddress()}";
+
+        return shippingLabel;
     }
 
 }
