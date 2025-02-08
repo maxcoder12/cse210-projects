@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System;
 
 public class ReflectingActivity : Activity{
@@ -22,11 +23,14 @@ public class ReflectingActivity : Activity{
         "Think of a time when you did something truly selfless"
     };
 
-    public ReflectingActivity():base(){}
+    public ReflectingActivity():base("Reflecting", "In this activity, you will reflect on a personal experience with some thought-provoking questions."){}
 
     public void Run(){
+        DisplayStartingMessage();
+        
         Console.WriteLine("Get ready...");
         ShowSpinner(4);
+
 
         Console.WriteLine("Consider the following Prompt: ");
         DisplayPrompt();
@@ -46,22 +50,28 @@ public class ReflectingActivity : Activity{
         return _prompts[randomPrompt];
     }
 
-    public string GetRandomQuestion(){
+    public string GetRandomQuestion(List<string> availableQuestions){
         Random random = new Random();
-        int randomQuestion = random.Next(0, _relatedQuestions.Count);
-        return _relatedQuestions[randomQuestion];
+        int randomQuestion = random.Next(0, availableQuestions.Count);
+        return availableQuestions[randomQuestion];
     }
 
     public void DisplayPrompt(){
-        Console.WriteLine($"—— {GetRandomPrompt()} ——");
+        Console.WriteLine($"—— {GetRandomPrompt()} ——\n");
     }
 
     public void DisplayQuestions(){
         DateTime currentTime = DateTime.Now;
         DateTime futureTime = currentTime.AddSeconds(_duration);
 
+        List<string> availableQuestions = new List<string>(_relatedQuestions);
+    
+
         while (currentTime < futureTime){
-            Console.Write(GetRandomQuestion());
+            string question = GetRandomQuestion(availableQuestions);
+            Console.Write(question + "\n");
+
+            availableQuestions.Remove(question);
             ShowSpinner(_duration/5);
             currentTime = DateTime.Now;
         }

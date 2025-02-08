@@ -6,16 +6,17 @@ class Program
     {
         int userChoice = 0;
         while (userChoice != 4){
-            
+
             Console.WriteLine("Menu Options:");
             Console.WriteLine("\t1. Start Breathing Activity");
             Console.WriteLine("\t2. Start Reflecting Activity");
             Console.WriteLine("\t3. Start Listing Activity");
             Console.WriteLine("\t4. Quit");
             Console.Write("Select a choice from the menu: ");
-            userChoice = int.Parse(Console.ReadLine());
 
-            if (userChoice < 1 || userChoice > 4){
+            bool isValid = int.TryParse(Console.ReadLine(), out userChoice);
+
+            if (!isValid || userChoice < 1 || userChoice > 4){
                 Console.WriteLine("Invalid choice....");
                 continue;
             }
@@ -23,15 +24,15 @@ class Program
             switch (userChoice)
             {
                 case 1:
-                    Activity breathingActivity = new BreathingActivity();
+                    BreathingActivity breathingActivity = new BreathingActivity();
                     breathingActivity.Run();
                     break;
                 case 2:
-                    Activity reflectingActivity = new ReflectingActivity();
+                    ReflectingActivity reflectingActivity = new ReflectingActivity();
                     reflectingActivity.Run();
                     break;
                 case 3:
-                    Activity listingActivity = new ListingActivity();
+                    ListingActivity listingActivity = new ListingActivity();
                     listingActivity.Run();
                     break;
                 case 4:

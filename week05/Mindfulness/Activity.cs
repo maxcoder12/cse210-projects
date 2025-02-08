@@ -1,4 +1,6 @@
+using System.Threading;
 using System;
+
 
 public class Activity{
     protected string _name;
@@ -15,11 +17,11 @@ public class Activity{
     }
 
     public void DisplayStartingMessage(){
-        Console.WriteLine($"Welcome to the {_name} Activity!");
+        Console.WriteLine($"Welcome to the {_name} Activity!\n");
 
         Console.WriteLine(_description);
-        
-        Console.Write("How long, in seconds, would you like for your session?");
+
+        Console.Write("\nHow long, in seconds, would you like for your session?");
         SetDuration(int.Parse(Console.ReadLine()));
     }
 
@@ -27,53 +29,34 @@ public class Activity{
         Console.WriteLine("Well done!");
         ShowSpinner(4);
         Console.WriteLine($"You have completed another {_duration} seconds of the {_name} Activity!");
-        ShowSpinner(4);
     }
 
     public void ShowSpinner(int seconds){
-        DateTime startTime = DateTime.Now;
-        DateTime futureTime = startTime.AddSeconds(seconds);
-        DateTime currentTime = DateTime.Now;
+        DateTime endTime = DateTime.Now.AddSeconds(seconds);;
 
-        while (currentTime < futureTime){
+        while (DateTime.Now < endTime){
             Console.Write("|");
             Thread.Sleep(200);
             Console.Write("\b \b");
             Console.Write("/");
             Thread.Sleep(200);
             Console.Write("\b \b");
-            Console.Write("——");
+            Console.Write("—");
             Thread.Sleep(200);
             Console.Write("\b \b");
-            Console.Write(" \ ").Trim();
-            Thread.Sleep(200);
-            Console.Write("\b \b");
-            Console.Write("|");
-            Thread.Sleep(200);
-            Console.Write("\b \b");
-            Console.Write("/");
-            Thread.Sleep(200);
-            Console.Write("\b \b");
-            Console.Write("——");
-            Thread.Sleep(200);
-            Console.Write("\b \b");
-            Console.Write(" \ ").Trim();
+            Console.Write(@"\");
             Thread.Sleep(200);
             Console.Write("\b \b");
         }
+
+        Console.Write("\b \b");
     }
 
     public void ShowCountDown(int seconds){
-        DateTime startTime = DateTime.Now;
-        DateTime futureTime = startTime.AddSeconds(seconds);
-        DateTime currentTime = DateTime.Now;
-
-        int second = seconds;
-
-        while (currentTime < futureTime){
-            Console.WriteLine(second);
-            Thread.Sleep(1000);
-            second--;
+        for (int i = seconds; i > 0; i--){
+            Console.WriteLine(i);
+            Console.Write("\b \b");
+            Thread.Sleep(1000);            
         }
     }
 }

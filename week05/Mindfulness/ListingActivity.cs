@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Collections.Generic;
 using System;
 
@@ -11,11 +12,14 @@ public class ListingActivity : Activity{
         "Who are some of your personal heroes?"
     };
 
-    public ListingActivity():base(){}
+    public ListingActivity():base("Listing", "In this activity, you will list as many items as you can in response to a random prompt."){}
 
     public void Run(){
+        DisplayStartingMessage();
+        
         Console.WriteLine("Get ready...");
         ShowSpinner(4);
+
 
         Console.WriteLine("List as many responses you can to the following prompt:");
 
@@ -24,7 +28,7 @@ public class ListingActivity : Activity{
         Console.Write("You may begin in: ");
         ShowCountDown(3);
 
-        string list = GetListFromUser();
+        List<string> list = GetListFromUser();
 
         Console.WriteLine($"You listed {list.Count} items!");
 
