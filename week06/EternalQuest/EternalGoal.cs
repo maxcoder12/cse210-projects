@@ -13,6 +13,9 @@ public class EternalGoal : Goal{
     }
 
     public override string GetStringRepresentation(){
-        return "[∞]" + "Eternal Goal:" + _name + " - " + _description;
+        string type = "Simple Goal";
+        string _goalInfo = $"{type},{_name},{_description},{_points}";
+
+        return _goalInfo;
     }
 }

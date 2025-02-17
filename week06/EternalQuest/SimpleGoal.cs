@@ -4,10 +4,10 @@ public class SimpleGoal : Goal {
     private bool _isComplete;
 
     public SimpleGoal(string name, string description, int points) : base(name, description, points){
-        _IsComplete = false;
+        _isComplete = false;
     } 
 
-    public override void RecordEvent(){
+    public override int RecordEvent(){
         if (!_isComplete) {
             _isComplete = true;
             return _points;
@@ -20,6 +20,9 @@ public class SimpleGoal : Goal {
     }
 
     public override string GetStringRepresentation(){
-        return (_isComplete ? "[X]" : "[ ]") + "Simple Goal " + _name + " - " + _description;
+        string type = "Simple Goal";
+        string _goalInfo = $"{type},{_name},{_description},{_points}";
+
+        return _goalInfo;
     }
 }

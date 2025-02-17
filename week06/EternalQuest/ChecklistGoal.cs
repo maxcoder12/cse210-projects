@@ -11,7 +11,7 @@ public class ChecklistGoal : Goal {
         _amountCompleted = 0;
     }
 
-    public override void RecordEvent(){
+    public override int RecordEvent(){
         _amountCompleted++;
         return (_amountCompleted == _target) ? _points + _bonus : _points;
     }
@@ -21,6 +21,9 @@ public class ChecklistGoal : Goal {
     }
 
     public override string GetStringRepresentation(){
-        return $"{_amountCompleted}/{_target} {_name} - {_description}";
+        string type = "Checklist Goal";
+        string _goalInfo = $"{type},{_name},{_description},{_points},{_target},{_amountCompleted}";
+
+        return _goalInfo;
     }
 }

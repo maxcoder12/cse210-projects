@@ -1,9 +1,9 @@
 using System;
 
 public abstract class Goal{
-    private string _name;
-    private string _description;
-    private int _points;
+    protected string _name;
+    protected string _description;
+    protected int _points;
 
     public Goal(string name, string description, int points)
     {
@@ -11,7 +11,7 @@ public abstract class Goal{
         _description = description;
         _points = points;
     };
-    public abstract void RecordEvent(){};
-    public abstract bool IsComplete(){};
-    public abstract string GetStringRepresentation(){};
+    public abstract void RecordEvent();
+    public abstract bool IsComplete();
+    public abstract string GetStringRepresentation();
 }
