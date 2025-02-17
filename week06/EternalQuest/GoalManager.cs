@@ -16,8 +16,8 @@ public class GoalManager{
 
 
     public void Start(){
-        DisplayPlayerInfo(); 
         while (true) {
+            DisplayPlayerInfo(); 
             Console.WriteLine("\nMenu Options");
             Console.WriteLine("\t1. Create New Goal");
             Console.WriteLine("\t2. List Goals");
@@ -76,22 +76,22 @@ public class GoalManager{
 
                 string stringRepresentation;
 
-                if (type == "Eternal Goal" && goalInfo.Length == 4){
+                if (type == "Eternal Goal" && goalInfo.Length == 5){
 
                     stringRepresentation = $"[∞]. {name} - {description}";
                     Console.WriteLine($"{i+1}. {stringRepresentation}");
 
-                } else if (goalInfo.Length == 4){
+                } else if (goalInfo.Length == 5){
 
-                    stringRepresentation = (!goal.IsComplete() ? "[X]." : "[ ].") + $"{name} - {description}";
+                    stringRepresentation = (goal.IsComplete() ? "[X]." : "[ ].") + $"{name} - {description}";
                     Console.WriteLine($"{i+1}. {stringRepresentation}");
 
-                } else if (goalInfo.Length == 6){
+                } else if (goalInfo.Length == 8){
 
                     target = int.Parse(goalInfo[4]);
                     amountCompleted = int.Parse(goalInfo[5]);
 
-                    stringRepresentation = (!goal.IsComplete() ? "[X]." : "[ ].")+ $"[{amountCompleted}/{target}] {name} - {description}";
+                    stringRepresentation = (goal.IsComplete() ? "[X]." : "[ ].")+ $"[{amountCompleted}/{target}] {name} - {description}";
                     Console.WriteLine($"{i+1}. {stringRepresentation}");
 
                 } else if (goalInfo.Length < 4){
@@ -115,11 +115,11 @@ public class GoalManager{
 
         switch(goalType){
             case "1":
-                SimpleGoal simpleGoal = new SimpleGoal(name, description, points);
+                SimpleGoal simpleGoal = new SimpleGoal(name, description, points, false);
                 _goals.Add(simpleGoal);
                 break;
             case "2":
-                EternalGoal eternalGoal = new EternalGoal(name, description, points);
+                EternalGoal eternalGoal = new EternalGoal(name, description, points, false);
                 _goals.Add(eternalGoal);
                 break;
             case "3":
@@ -127,7 +127,7 @@ public class GoalManager{
                 int target = int.Parse(Console.ReadLine());
                 Console.WriteLine("\nWhat is the bonus for acomplishing this task?");
                 int bonus = int.Parse(Console.ReadLine());
-                ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, target, bonus);
+                ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, target, 0, bonus, false);
                 _goals.Add(checklistGoal);
                 break;
             default:
@@ -140,8 +140,11 @@ public class GoalManager{
     public void RecordEvent(){
         ListGoalDetails();
         Console.WriteLine("What goal did you accomplish?");
+
         int i = int.Parse(Console.ReadLine()) - 1;
-        if (!_goals[i].IsComplete()){
+        string[] goalInfo = _goals[i].GetStringRepresentation().Split(",");
+        string type = goalInfo[0];
+        if (!_goals[i].IsComplete() || type == "Eternal Goal"){
             _score += _goals[i].RecordEvent();
             Console.WriteLine("Congratulations!!");
         } else if (_goals[i].IsComplete()) {
@@ -186,27 +189,37 @@ public class GoalManager{
                 string name = parts[1];
                 string description = parts[2];
                 int points = int.Parse(parts[3]);
+                bool isComplete = false;
 
                 switch(typeGoal){
                     case "Simple Goal":
-                        SimpleGoal simpleGoal = new SimpleGoal(name, description, points);
+
+                        if (parts.Count >= 5) {
+                            isComplete = bool.Parse(parts[4]);
+                        }
+                    
+                        SimpleGoal simpleGoal = new SimpleGoal(name, description, points, isComplete);
                         _goals.Add(simpleGoal);
                         break;
                     case "Eternal Goal":
-                        EternalGoal eternalGoal = new EternalGoal(name, description, points);
+                        if (parts.Count >= 5) {
+                            isComplete = bool.Parse(parts[4]);
+                        }
+                        EternalGoal eternalGoal = new EternalGoal(name, description, points, isComplete);
                         _goals.Add(eternalGoal);
                         break;
                     case "Checklist Goal":
-                        if (parts.Count < 6)
-                        {
-                            Console.WriteLine($"Invalid Checklist Goal format at the line {i+1} : {line}");
-                            continue;
+                        if (parts.Count == 8) {
+                            int target = int.Parse(parts[4]);
+                            int amountCompleted = int.Parse(parts[5]);
+                            int bonus = int.Parse(parts[6]);
+                            isComplete = bool.Parse(parts[7]); // isComplete is in the last part
+    
+                            ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, target, amountCompleted, bonus, isComplete);
+                            _goals.Add(checklistGoal);
+                        } else {
+                            Console.WriteLine($"Invalid Checklist Goal format at line {i+1}: {line}");
                         }
-
-                        int target = int.Parse(parts[4]);
-                        int bonus = int.Parse(parts[5]);
-                        ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, target, bonus);
-                        _goals.Add(checklistGoal);
                         break;
                 };
             }
@@ -215,4 +228,5 @@ public class GoalManager{
         Console.WriteLine("Goals loaded succesfully");
 
     }
+}
 }
