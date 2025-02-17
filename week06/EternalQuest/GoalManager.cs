@@ -62,7 +62,7 @@ public class GoalManager{
             Console.WriteLine("\nNo goals available");
             return;
         } else{
-            var sortedGoals = _goals.OrderByDescending(goal => goal.IsComplete()).ToList();
+            List<Goal> sortedGoals = _goals.OrderByDescending(goal => goal.IsComplete()).ToList();
 
             Console.WriteLine("\nYour goals:");
             int i = 0;
