@@ -62,9 +62,12 @@ public class GoalManager{
             Console.WriteLine("\nNo goals available");
             return;
         } else{
+            var sortedGoals = _goals.OrderByDescending(goal => goal.IsComplete()).ToList();
+
             Console.WriteLine("\nYour goals:");
             int i = 0;
-            foreach(Goal goal in _goals){
+
+            foreach(Goal goal in sortedGoals){
                 string[] goalInfo = goal.GetStringRepresentation().Split(",");
 
 
