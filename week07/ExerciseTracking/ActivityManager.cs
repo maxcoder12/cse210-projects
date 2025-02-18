@@ -22,46 +22,55 @@ public class ActivityManager{
             string option = Console.ReadLine();
 
 
-            bool isMile;
-
-            Console.WriteLine("What unit do you want to use?");
-            Console.WriteLine("1. Miles");
-            Console.WriteLine("2. Kilometers");
-            string unit = Console.ReadLine();
-            unit = unit.Trim();
-
-            if(unit == "1"){
-                isMile = true;
-            } else if ( unit == ""){
-                isMile = false;
-            }
-
-            Console.WriteLine("What type of exercise do you want to track?");
-            Console.WriteLine("1. Running");
-            Console.WriteLine("2. Cycling");
-            Console.WriteLine("3. Swimming");        
-            string exercise = Console.ReadLine();
-
-
-            DateTime today = Date.Now;
-
-            Console.WriteLine("How many minutes did it last?");
-            int duration = int.Parse(Console.ReadLine());
-
-            switch (exercise){
+            switch (option){
                 case "1":
-                    Console.WriteLine("What was the distance run?");
-                    double distance = double.Parse(Console.ReadLine());
-                    RunningActivity _running = new RunningActivity(today, duration, isMile, distance);
+                    bool isMile;
 
-                case "2":
-                    Console.WriteLine("What was your speed?");
-                    double speed = double.Parse(Console.ReadLine());
-                    CyclingActivity _cycling = new CyclingActivity(today, duration, isMile, speed);
-                case "3":
-                    Console.WriteLine("How many laps swun?");
-                    double laps = double.Parse(Console.ReadLine());
-                    SwimmingActivity _swimming = new SwimmingActivity(today, duration, isMile, laps);
+                    Console.WriteLine("What unit do you want to use?");
+                    Console.WriteLine("1. Miles");
+                    Console.WriteLine("2. Kilometers");
+                    string unit = Console.ReadLine();
+                    unit = unit.Trim();
+
+                    if(unit == "1"){
+                        isMile = true;
+                    } else if ( unit == ""){
+                        isMile = false;
+                    }
+
+                    Console.WriteLine("What type of exercise do you want to track?");
+                    Console.WriteLine("1. Running");
+                    Console.WriteLine("2. Cycling");
+                    Console.WriteLine("3. Swimming");        
+                    string exercise = Console.ReadLine();
+
+
+                    DateTime today = Date.Now;
+
+                    Console.WriteLine("How many minutes did it last?");
+                    int duration = int.Parse(Console.ReadLine());
+
+                    switch (exercise){
+                        case "1":
+                            Console.WriteLine("What was the distance run?");
+                            double distance = double.Parse(Console.ReadLine());
+                            RunningActivity _running = new RunningActivity(today, duration, isMile, distance);
+                            _activities.Add(_running);
+                        case "2":
+                            Console.WriteLine("What was your speed?");
+                            double speed = double.Parse(Console.ReadLine());
+                            CyclingActivity _cycling = new CyclingActivity(today, duration, isMile, speed);
+                            _activities.Add(_cycling);
+                        case "3":
+                            Console.WriteLine("How many laps swun?");
+                            double laps = double.Parse(Console.ReadLine());
+                            SwimmingActivity _swimming = new SwimmingActivity(today, duration, isMile, laps);
+                            _activities.Add(_swimming);
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Invalid option");
+                    continue;
             }
         }
     }
