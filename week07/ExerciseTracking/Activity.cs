@@ -13,6 +13,10 @@ public abstract class Activity{
         _isMile =  isMile;
     }
 
+    public bool IsMile(){
+        return _isMile;
+    }
+
     abstract double GetDistance();
     abstract double GetDpeed();
     abstract double GetDace();

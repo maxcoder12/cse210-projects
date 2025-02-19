@@ -8,7 +8,7 @@ public class SwimmingActivity : Activity{
     }
 
     public override double GetDistance(){
-        if(_isMile){
+        if(IsMile()){
             return (_lapsNumber * 50) / 1609.34;
         }
         return _lapsNumber * 50 / 1000;
@@ -22,10 +22,11 @@ public class SwimmingActivity : Activity{
         return _activityDuration / GetDistance();
     }
 
+    public int GetLaps(){
+        return _lapsNumber
+    }
+
     public override string GetSummary(){
-        if (_isMile){
-            return $"{date} Swimming ({_activityDuration} min) - Distance: {GetDistance()} miles | Speed: {GetSpeed()} mph | Pace: {GetPace()} min per mile.";
-        }
-        return $"{date} Swimming ({_activityDuration} min) - Distance: {GetDistance()} km | Speed: {GetSpeed()} kph | Pace: {GetPace()} min per km.";
+        return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()},{GetLaps()}";
     }
 }

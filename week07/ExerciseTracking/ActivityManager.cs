@@ -1,16 +1,20 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System;
 
 public class ActivityManager{
     private List<Activity> _activities = new List<Activity>();
-    private string filename;
+    private string _filename;
 
     ActivityManager(string filename){
         _filename = filename;
     }
 
+    bool continueWhile = true;
+
     public void Start(){
-        while(true){
-            Console.WriteLine("Welcome to the Exercise Tracking Program!");
+        while(continueWhile){
             Console.WriteLine("\nMenu Options");
             Console.WriteLine("\t1. Track Activity");
             Console.WriteLine("\t2. List Activities");
@@ -20,6 +24,29 @@ public class ActivityManager{
             Console.WriteLine("\t6. Quit");
 
             string option = Console.ReadLine();
+
+            private string ListTracks(){
+                Console.WriteLine("Your tracks:");
+                int i = 1;
+                private string tracks;
+                foreach (Activity activity in _activities)
+                {   
+                    string summary = activity.GetSummary();
+
+                    string[] parts = summary.Split(",");
+
+                    bool isMile = bool.Parse(parts[6]);
+
+                    if (isMile){
+                        tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} miles | Speed: {parts[4]} mph | Pace: {parts[5]} min per mile.";
+                    } else {
+                        tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} km | Speed: {parts[4]} kph | Pace: {parts[5]} min per km.";
+                    }
+
+                    // return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
+                }
+                return tracks;     
+            }
 
 
             switch (option){
@@ -68,8 +95,85 @@ public class ActivityManager{
                             _activities.Add(_swimming);
                     }
                     break;
+                case "2":
+                    Console.ReadLine(ListTracks());
+                    break;
+                case "3":
+                    using (StreamWriter file = new StreamWriter(_filename)){
+                        foreach (Activity activity in _activities){
+                            Console.WriteLine(activity.GetSummary());
+                        }
+                    }
+                    break;
+                case "4":
+                    if(!File.Exists(_filename)){
+                        Console.WriteLine("That file doesn't exists");
+                        break;
+                    } else {
+                        _activities.Clear();
+                        string[] lines = System.IO.File.ReadAllLines(_filename);
+
+                        for (int i = 0; i < lines.Length; i++){
+                            string line = lines[i];
+
+                            string[] parts = line.Split(",");
+
+                            bool isMile = bool.Parse(parts[6]);
+
+                            Datetime date = DateTime.ToString(parts[0]);
+                            string name = parts[1];
+                            int duration = int.Parse(parts[2]);
+                            double distance = double.Parse(parts[3]);
+                            double speed = double.Parse(parts[4]);
+                            double pace = double.Parse(parts[5]);
+
+                            switch (name){
+                                case "Cycling":
+                                    CyclingActivity cycling = new CyclingActivity(date, duration, isMile, distance);
+                                    _activities.Add(cycling);
+                                    break;
+                                case "Running":
+                                    RunningActivity running = new RunningActivity(date, duration, isMile, speed);
+                                    _activities.Add(running);
+                                    break;
+                                case "Swimming":
+                                    int laps = parts[7];
+                                    SwimmingActivity swimming = new SwimmingActivity(date, duration, isMile, laps)
+                                    _activities.Add(swimming);
+                                    break:
+                                default:
+                                    break;
+                            }   
+                        }
+                    }
+                    break;
+                case "5":
+                    Console.WriteLine(ListTracks());
+                    Console.WriteLine("What track do you want to delete?");
+                    int lineDeleted = int.Parse(Console.ReadLine());
+
+                    if(!File.Exists(_filename)){
+                        Console.WriteLine("There was an error with the file...")
+                        break;
+                    } else{
+                        string [] lines = System.IO.File.ReadAllLines(_filename);
+
+                        if (lineDeleted > 0 && lineDeleted < lines.Length){
+                            lines.RemoveAt(lineDeleted-1);
+                            File.WriteAllLines(_filename, lines);
+                            Console.WriteLine("The track was deleted!");
+                            break;
+                        } else{
+                            Console.WriteLine("Invalid track number...")
+                            break;
+                        }
+                    }
+                case "6":
+                    Console.WriteLine("Thank you! Goodbye!");
+                    continueWhile = false;
+                    break;
                 default:
-                    Console.WriteLine("Invalid option");
+                    Console.WriteLine("Select a valid option...");
                     continue;
             }
         }

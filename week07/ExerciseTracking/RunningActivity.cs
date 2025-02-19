@@ -20,9 +20,6 @@ public class RunningActivity : Activity{
     }
 
     public override string GetSummary(){
-        if (_isMile){
-            return $"{date} Running ({_activityDuration} min) - Distance: {GetDistance()} miles | Speed: {GetSpeed()} mph | Pace: {GetPace()} min per mile.";
-        }
-        return $"{date} Running ({_activityDuration} min) - Distance: {GetDistance()} km | Speed: {GetSpeed()} kph | Pace: {GetPace()} min per km.";
+        return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
     }
 }
