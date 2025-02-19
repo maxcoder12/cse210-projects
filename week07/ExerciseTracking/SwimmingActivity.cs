@@ -23,10 +23,10 @@ public class SwimmingActivity : Activity{
     }
 
     public int GetLaps(){
-        return _lapsNumber
+        return _lapsNumber;
     }
 
     public override string GetSummary(){
-        return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()},{GetLaps()}";
+        return $"{_date},Swimming,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()},{GetLaps()}";
     }
 }

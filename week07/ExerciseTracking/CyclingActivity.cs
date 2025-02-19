@@ -21,7 +21,7 @@ public class CyclingActivity : Activity{
     }
 
     public override string GetSummary(){
-        return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
+        return $"{_date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
     }
     
 }

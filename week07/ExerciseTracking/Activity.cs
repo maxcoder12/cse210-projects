@@ -1,5 +1,5 @@
 using System;
-using System.Collection.Generic;
+using System.Collections.Generic;
 
 public abstract class Activity{
     protected DateTime _date;
@@ -17,10 +17,10 @@ public abstract class Activity{
         return _isMile;
     }
 
-    abstract double GetDistance();
-    abstract double GetDpeed();
-    abstract double GetDace();
+    public abstract double GetDistance();
+    public abstract double GetSpeed();
+    public abstract double GetPace();
 
-    abstract string GetSummary();
+    public abstract string GetSummary();
 
 }

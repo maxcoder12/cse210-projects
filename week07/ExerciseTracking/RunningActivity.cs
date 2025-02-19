@@ -12,14 +12,14 @@ public class RunningActivity : Activity{
     }
 
     public override double GetSpeed(){
-        return (CalculateDistance()/_activityDuration) * 60;
+        return (GetDistance()/_activityDuration) * 60;
     }
 
     public override double GetPace(){
-        return _activityDuration / CalculateDistance();
+        return _activityDuration / GetDistance();
     }
 
     public override string GetSummary(){
-        return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
+        return $"{_date},Running,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
     }
 }

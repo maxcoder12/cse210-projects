@@ -7,11 +7,30 @@ public class ActivityManager{
     private List<Activity> _activities = new List<Activity>();
     private string _filename;
 
-    ActivityManager(string filename){
+    public ActivityManager(string filename){
         _filename = filename;
     }
 
     bool continueWhile = true;
+
+    private string ListTracks(){
+        Console.WriteLine("Your tracks:");
+        int i = 1;
+        string tracks = "";
+        foreach (Activity activity in _activities)
+        {   
+            string summary = activity.GetSummary();
+            string[] parts = summary.Split(",");
+            bool isMile = bool.Parse(parts[6]);
+            if (isMile){
+                tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} miles | Speed: {parts[4]} mph | Pace: {parts[5]} min per mile.\n";
+            } else {
+                tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} km | Speed: {parts[4]} kph | Pace: {parts[5]} min per km.\n";
+            }
+            i++;
+        }
+        return tracks;     
+    }
 
     public void Start(){
         while(continueWhile){
@@ -25,30 +44,6 @@ public class ActivityManager{
 
             string option = Console.ReadLine();
 
-            private string ListTracks(){
-                Console.WriteLine("Your tracks:");
-                int i = 1;
-                private string tracks;
-                foreach (Activity activity in _activities)
-                {   
-                    string summary = activity.GetSummary();
-
-                    string[] parts = summary.Split(",");
-
-                    bool isMile = bool.Parse(parts[6]);
-
-                    if (isMile){
-                        tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} miles | Speed: {parts[4]} mph | Pace: {parts[5]} min per mile.";
-                    } else {
-                        tracks += $"{i}. {parts[0]} : {parts[1]} ({parts[2]} min) - Distance: {parts[3]} km | Speed: {parts[4]} kph | Pace: {parts[5]} min per km.";
-                    }
-
-                    // return $"{date},Cycling,{_activityDuration},{GetDistance()},{GetSpeed()},{GetPace()},{IsMile()}";
-                }
-                return tracks;     
-            }
-
-
             switch (option){
                 case "1":
                     bool isMile;
@@ -61,8 +56,11 @@ public class ActivityManager{
 
                     if(unit == "1"){
                         isMile = true;
-                    } else if ( unit == ""){
+                    } else if (unit == "2"){
                         isMile = false;
+                    } else{
+                        Console.WriteLine("Invalid Option...");
+                        break;
                     }
 
                     Console.WriteLine("What type of exercise do you want to track?");
@@ -72,7 +70,7 @@ public class ActivityManager{
                     string exercise = Console.ReadLine();
 
 
-                    DateTime today = Date.Now;
+                    DateTime today = DateTime.Now;
 
                     Console.WriteLine("How many minutes did it last?");
                     int duration = int.Parse(Console.ReadLine());
@@ -83,25 +81,31 @@ public class ActivityManager{
                             double distance = double.Parse(Console.ReadLine());
                             RunningActivity _running = new RunningActivity(today, duration, isMile, distance);
                             _activities.Add(_running);
+                            break;
                         case "2":
                             Console.WriteLine("What was your speed?");
                             double speed = double.Parse(Console.ReadLine());
                             CyclingActivity _cycling = new CyclingActivity(today, duration, isMile, speed);
                             _activities.Add(_cycling);
+                            break;
                         case "3":
                             Console.WriteLine("How many laps swun?");
                             double laps = double.Parse(Console.ReadLine());
                             SwimmingActivity _swimming = new SwimmingActivity(today, duration, isMile, laps);
                             _activities.Add(_swimming);
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option...");
+                            break;
                     }
-                    break;
+                break;
                 case "2":
-                    Console.ReadLine(ListTracks());
+                    Console.WriteLine(ListTracks());
                     break;
                 case "3":
                     using (StreamWriter file = new StreamWriter(_filename)){
                         foreach (Activity activity in _activities){
-                            Console.WriteLine(activity.GetSummary());
+                            file.WriteLine(activity.GetSummary());
                         }
                     }
                     break;
@@ -120,7 +124,7 @@ public class ActivityManager{
 
                             bool isMile = bool.Parse(parts[6]);
 
-                            Datetime date = DateTime.ToString(parts[0]);
+                            DateTime date = DateTime.Parse(parts[0]);
                             string name = parts[1];
                             int duration = int.Parse(parts[2]);
                             double distance = double.Parse(parts[3]);
@@ -137,10 +141,10 @@ public class ActivityManager{
                                     _activities.Add(running);
                                     break;
                                 case "Swimming":
-                                    int laps = parts[7];
-                                    SwimmingActivity swimming = new SwimmingActivity(date, duration, isMile, laps)
+                                    int laps = int.Parse(parts[7]);
+                                    SwimmingActivity swimming = new SwimmingActivity(date, duration, isMile, laps);
                                     _activities.Add(swimming);
-                                    break:
+                                    break;
                                 default:
                                     break;
                             }   
@@ -153,18 +157,18 @@ public class ActivityManager{
                     int lineDeleted = int.Parse(Console.ReadLine());
 
                     if(!File.Exists(_filename)){
-                        Console.WriteLine("There was an error with the file...")
+                        Console.WriteLine("There was an error with the file...");
                         break;
                     } else{
-                        string [] lines = System.IO.File.ReadAllLines(_filename);
+                        List<string> lines = new List<string>(System.IO.File.ReadAllLines(_filename));
 
-                        if (lineDeleted > 0 && lineDeleted < lines.Length){
+                        if (lineDeleted > 0 && lineDeleted <= lines.Count){
                             lines.RemoveAt(lineDeleted-1);
                             File.WriteAllLines(_filename, lines);
                             Console.WriteLine("The track was deleted!");
                             break;
                         } else{
-                            Console.WriteLine("Invalid track number...")
+                            Console.WriteLine("Invalid track number...");
                             break;
                         }
                     }
